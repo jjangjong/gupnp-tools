@@ -585,7 +585,15 @@ init_server (GUPnPContext *context)
                                           gupnp_resource_factory_get_default (),
                                           doc,
                                           desc_location,
-                                          DATA_DIR);
+                                          DATA_DIR,
+                                          &error);
+        if (error != NULL) {
+                g_warning ("Failed to create root device: %s",
+                           error->message);
+                g_error_free (error);
+
+                return FALSE;
+        }
 
         switch_power = gupnp_device_info_get_service (GUPNP_DEVICE_INFO (dev),
                                                       SWITCH_SERVICE);
